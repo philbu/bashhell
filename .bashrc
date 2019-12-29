@@ -1,4 +1,4 @@
-alias cd1=random_directory
+alias cd=random_directory
 
 
 random_directory() {

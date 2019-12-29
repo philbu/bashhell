@@ -8,8 +8,18 @@ In [this story](http://bofh.bjash.com/bofh/bofh10.html), he tells a student to c
 
 # The idea
 
-First of all, let me explain. With each basic command, we expect a behavior. This .bashrc is should break this pattern and make a system basically unusable.
+This .bashrc is should break the expected behaviour of basic linux commands and make a system unusable.
 
 # cd 
 
-1. 'cd'
+## `cd`
+
+### Expected behaviour
+
+If no directory operand is given and the HOME environment variable is set to a non-empty value, the  cd  utility  shall behave as if the directory named in the HOME environment variable was specified as the directory operand.
+
+### Wrong behaviour
+
+If no directory operand is given, the cd utility shall behave as if a seemingly random directory was specified as the directory operand.
+
+## `cd ..`
