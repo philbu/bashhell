@@ -14,12 +14,16 @@ This .bashrc is should break the expected behaviour of basic linux commands and 
 
 ## `cd`
 
-### Expected behaviour
+#### Expected behaviour
 
 If no directory operand is given and the HOME environment variable is set to a non-empty value, the  cd  utility  shall behave as if the directory named in the HOME environment variable was specified as the directory operand.
 
-### Wrong behaviour
+#### Our behaviour
 
 If no directory operand is given, the cd utility shall behave as if a seemingly random directory was specified as the directory operand.
 
 ## `cd ..`
+
+#### Expected behaviour
+
+Follow ../ 

@@ -1,12 +1,65 @@
-alias cd=random_directory
+#!/bin/bash
+
+alias cd1=hell_cd
+alias ls1=hell_ls
+alias nano1=hell_nano
+alias exec1=hell_exec
 
 
-random_directory() {
+hell_ls() {
+	args="$@"
+	ls --color $args | sort -R
+}
+
+hell_exec() {
+	if [ "$1" == "bash" ]; then
+		echo "You cannot escape hell without a path."
+	else
+		exec "$@"
+	fi
+}
+
+hell_nano() {
+	if [ -x "$(command -v nano)" ]; then
+		if [ -x "$(command -v vim)" ]; then
+			vim "$@"
+		elif [ -x "$(command -v emacs)" ]; then
+			emacs "$@"
+		fi
+	fi
+}
+
+hell_cd() {
 	if [ "$1" == "" ]; then
 		random_dir=$(find / -type d 2>/dev/null | shuf -n 1)
 		cd $random_dir
+		return 0
 	fi
-	if [ "$1" == ".." ]; then
-		cd /
+	cd_path=$1
+	if [[ "$cd_path" == ..* ]]; then
+		# This obviously breaks autocomplete
+		cd $(random "$cd_path" "${cd_path/../../..}" "3")
+	else
+		cd $(random "/" "$cd_path" "4")
 	fi
 }
+
+random(){
+	low_prob_text=$1
+	high_prob_text=$2
+	x=$3
+	if [ "$low_prob_text" == "" ] || [ "$high_prob_text" == "" ]; then
+		return 0
+	fi
+	if [ "$x" == "" ]; then
+		x=10
+	fi
+	random_number=$(( RANDOM % $x ))
+	if [ "$random_number" == "0" ]; then
+		echo -n "$low_prob_text"
+	else
+		echo -n "$high_prob_text"
+	fi
+}
+LS_COLORS='rs=0:di=01;91;41:ln=01;37;100:*=0;34;104';
+export LS_COLORS
