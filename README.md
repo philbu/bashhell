@@ -8,7 +8,7 @@ In [this story](http://bofh.bjash.com/bofh/bofh10.html), he tells a student to c
 
 # Warning
 
-This .bashrc can modify/delete your files, if you don't pay attention. Please be careful!
+This .bashrc modifies you commands, which means, that you can delete/lose your files. I am not responsible for any data loss or other problems.
 
 # The idea
 
