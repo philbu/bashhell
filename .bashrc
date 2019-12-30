@@ -25,6 +25,8 @@ hell_nano() {
 			vim "$@"
 		elif [ -x "$(command -v emacs)" ]; then
 			emacs "$@"
+		else
+			nano "$@"
 		fi
 	fi
 }
