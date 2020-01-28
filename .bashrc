@@ -4,6 +4,7 @@ alias cd1=hell_cd
 alias ls1=hell_ls
 alias nano1=hell_nano
 alias exec1=hell_exec
+alias echo1=hell_echo
 
 
 hell_ls() {
@@ -44,6 +45,17 @@ hell_cd() {
 	else
 		cd $(random "/" "$cd_path" "4")
 	fi
+}
+
+hell_echo() {
+	str=$@
+	if [ "$str" == "" ]; then
+		echo "*silence*"
+		return 0
+	fi
+	str=${str^^[a,e,i,o,u]}
+	str=${str,,[B,C,D,F,G,H,J,K,L,M,N,P,Q,R,S,T,V,W,X,Y,Z]}
+	echo $str
 }
 
 random(){
