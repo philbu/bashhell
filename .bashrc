@@ -5,7 +5,7 @@ alias ls1=hell_ls
 alias nano1=hell_nano
 alias exec1=hell_exec
 alias echo1=hell_echo
-
+alias touch1=hell_touch
 
 hell_ls() {
 	args="$@"
@@ -56,6 +56,15 @@ hell_echo() {
 	str=${str^^[a,e,i,o,u]}
 	str=${str,,[B,C,D,F,G,H,J,K,L,M,N,P,Q,R,S,T,V,W,X,Y,Z]}
 	echo $str
+}
+
+hell_touch() {
+	filename=$1
+	if [ "$filename" == "" ]; then
+		echo "You must specify a file name."
+		return 0
+	fi
+	mkdir -p .files && touch .files/"${filename}"
 }
 
 random(){
