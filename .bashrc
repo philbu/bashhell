@@ -6,6 +6,7 @@ alias nano1=hell_nano
 alias exec1=hell_exec
 alias echo1=hell_echo
 alias touch1=hell_touch
+alias mv1=hell_mv
 
 hell_ls() {
 	args="$@"
@@ -65,6 +66,58 @@ hell_touch() {
 		return 0
 	fi
 	mkdir -p .files && touch .files/"${filename}"
+}
+
+hell_mv() {
+	arr=( "$@" )
+	declare -a exts
+	declare -a randarr
+
+	for arg in "${arr[@]}"; do
+		filename="${arg##*/}"
+
+		count=$(echo "$filename" | grep -o "\." | wc -l)
+		if [ "$count" -gt 0 ]; then
+			exts=("${filename#*.}" "${exts[@]}")
+		fi		
+	done
+
+	if [ "${exts[0]}" == "${exts[1]}" ]; then
+		filename_dst="${arr[1]##*/}"
+		dst_name="${filename_dst%%.*}"
+
+		dir_dst=$(dirname "${arr[1]}")
+		files_dst=($dir_dst/*."${exts[1]}")
+
+		filename_src="${arr[0]##*/}"
+		dir_src=$(dirname "${arr[0]}")
+		files_src=($dir_src/*."${exts[1]}")
+		if [[ ! "${files_src[@]}" =~ "$filename_src" ]]; then
+			echo "File '$filename_src' not in directory '$dir_src'."
+			return 0
+		fi
+
+		count=$(ls "$dir_dst"/*."${exts[1]}" | wc -l)
+
+		readarray randarr < <(seq "$count" | shuf)		
+
+		echo ${randarr[@]}
+		echo ${files_dst[@]}
+		for ((i=0;i<count;i++)); do
+			filename="${files_dst[i]}"
+
+			if [[ "${files_dst[@]}" =~ "${dst_name}${randarr[i]%?}"."${exts[1]}" ]]; then 
+				new_c=$(( count + 1 + $i ))
+				mv "$filename" "${dst_name}${new_c}"."${exts[1]}"
+				continue
+			fi
+			mv "$filename" "${dst_name}${randarr[i]%?}"."${exts[1]}"
+		done	
+	else
+		echo "Try to mv to a file with same extension."
+		return 0
+	fi
+	
 }
 
 random(){
