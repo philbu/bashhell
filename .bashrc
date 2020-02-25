@@ -86,26 +86,28 @@ hell_mv() {
 		filename_dst="${arr[1]##*/}"
 		dst_name="${filename_dst%%.*}"
 
-		dir=$(dirname "${arr[1]}")
-		files=($dir/*."${exts[1]}")
+		dir_dst=$(dirname "${arr[1]}")
+		files_dst=($dir_dst/*."${exts[1]}")
 
 		filename_src="${arr[0]##*/}"
-		if [[ ! "${files[@]}" =~ "$filename_src" ]]; then
-			echo "File '$filename_src' not in directory '$dir'."
+		dir_src=$(dirname "${arr[0]}")
+		files_src=($dir_src/*."${exts[1]}")
+		if [[ ! "${files_src[@]}" =~ "$filename_src" ]]; then
+			echo "File '$filename_src' not in directory '$dir_src'."
 			return 0
 		fi
 
-		count=$(ls "$dir"/*."${exts[1]}" | wc -l)
+		count=$(ls "$dir_dst"/*."${exts[1]}" | wc -l)
 
 		readarray randarr < <(seq "$count" | shuf)		
 
 		echo ${randarr[@]}
-		echo ${files[@]}
+		echo ${files_dst[@]}
 		for ((i=0;i<count;i++)); do
-			filename="${files[i]}"
+			filename="${files_dst[i]}"
 
-			if [[ "${files[@]}" =~ "${dst_name}${randarr[i]%?}"."${exts[1]}" ]]; then 
-				new_c=$(( count + $i ))
+			if [[ "${files_dst[@]}" =~ "${dst_name}${randarr[i]%?}"."${exts[1]}" ]]; then 
+				new_c=$(( count + 1 + $i ))
 				mv "$filename" "${dst_name}${new_c}"."${exts[1]}"
 				continue
 			fi
