@@ -104,6 +104,11 @@ hell_mv() {
 		for ((i=0;i<count;i++)); do
 			filename="${files[i]}"
 
+			if [[ "${files[@]}" =~ "${dst_name}${randarr[i]%?}"."${exts[1]}" ]]; then 
+				new_c=$(( count + $i ))
+				mv "$filename" "${dst_name}${new_c}"."${exts[1]}"
+				continue
+			fi
 			mv "$filename" "${dst_name}${randarr[i]%?}"."${exts[1]}"
 		done	
 	else
